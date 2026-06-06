@@ -1,4 +1,4 @@
-from produto import criar_produto
+from produto import criar_produto, atualizar_dados_produto
 
 def busca_binaria_por_codigo(vetor_ordenado, codigo):
     inicio = 0
@@ -57,3 +57,43 @@ def remover_produto(dados, codigo):
             break
             
     return dados
+
+def editar_produto(dados, codigo, nome=None, categoria=None, preco=None, quantidade=None):
+    indice = busca_binaria_por_codigo(dados["ordenado"], codigo)
+    if indice == -1:
+        raise ValueError("Produto não encontrado para edição.")
+        
+    produto = dados["ordenado"][indice]
+    atualizar_dados_produto(produto, nome, categoria, preco, quantidade)
+    return dados
+
+def registrar_venda(dados, codigo, quantidade_vendida):
+    if quantidade_vendida <= 0:
+        raise ValueError("A quantidade vendida deve ser maior que zero.")
+        
+    indice = busca_binaria_por_codigo(dados["ordenado"], codigo)
+    if indice == -1:
+        raise ValueError("Produto não encontrado para venda.")
+        
+    produto = dados["ordenado"][indice]
+    
+    if produto["quantidade"] < quantidade_vendida:
+        raise ValueError("Estoque insuficiente para esta venda.")
+        
+    produto["quantidade"] -= quantidade_vendida
+    return dados
+
+def listar_por_categoria(dados, categoria):
+    resultados = []
+    categoria_lower = categoria.lower()
+    for produto in dados["nao_ordenado"]:
+        if produto["categoria"].lower() == categoria_lower:
+            resultados.append(produto)
+    return resultados
+
+def relatorio_estoque_baixo(dados, limite):
+    resultados = []
+    for produto in dados["nao_ordenado"]:
+        if produto["quantidade"] < limite:
+            resultados.append(produto)
+    return resultados
