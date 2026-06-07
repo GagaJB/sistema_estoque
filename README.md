@@ -33,4 +33,3 @@ Ao iniciar o sistema, um menu interativo será exibido. Você pode começar digi
 
 ---
 **Autores:** Gabriel de Jesus, Arthur Augusto, Isaque Rocha, Kaio Vinicyus, Nicolas Pereira
-```https://github.com/GagaJB/sistema_estoque
